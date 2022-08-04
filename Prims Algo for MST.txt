@@ -1,0 +1,23 @@
+class Solution:
+    
+    #Function to find sum of weights of edges of the Minimum Spanning Tree.
+    def spanningTree(self, V, adj):
+        hashTable={}
+        start=0
+        Q=PriorityQueue()
+        Q.put((0,0))
+        cost=0
+        while Q.qsize()>0:
+            c,root=Q.get()
+            if root in hashTable:
+                continue
+            cost+=c
+            
+            hashTable[root]=True
+            for node,costing in adj[root]:
+                # print(node)
+                if root in hashTable and node in hashTable:
+                    continue
+                else:
+                    Q.put((costing,node))
+        return cost

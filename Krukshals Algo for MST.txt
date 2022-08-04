@@ -1,0 +1,56 @@
+class Solution:
+    
+    #Function to find sum of weights of edges of the Minimum Spanning Tree.
+    def spanningTree(self, V, adj):
+        #################################################################
+        ###################################################################
+        # Logic for creating adj to edgeList if not Given
+        # If edge list is given we skip this part
+        
+        edges={}
+        edgeList=[]
+        for i in range(V):
+            for j in adj[i]:
+                source=i
+                sink=j[0]
+                wt=j[1]
+                if source>sink:
+                    source,sink=sink,source
+                if (source,sink,wt) in edges:
+                    continue
+                else:
+                    edges[(source,sink,wt)]=True
+                    edgeList.append([wt,source,sink])
+        #############################################################################
+        #############################################################################
+        # Logic starts from here if edgeList is given
+        Q=PriorityQueue()
+        parent=[-1 for i in range(V)]
+        for i in edgeList:
+            Q.put(i)
+        cost=0
+        while Q.qsize()>0:
+            wt,source,sink=Q.get()
+            s1=self.Find(source,parent)
+            s2=self.Find(sink,parent)
+            if s1==s2:
+                continue
+            else:
+                self.Union(s1,s2,parent)
+                cost+=wt
+        return cost
+                    
+                 
+        
+    
+    def Find(self,i,parent):
+        if parent[i]==-1:
+            return i
+        return self.Find(parent[i],parent)
+    
+    def Union(self,s1,s2,parent):
+        s1=self.Find(s1,parent)
+        s2=self.Find(s2,parent)
+        if s1!=s2:
+            parent[s2]=s1
+        return
